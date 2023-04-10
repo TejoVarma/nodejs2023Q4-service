@@ -41,7 +41,22 @@ tracksControllers.getTrackById = async function(req,res){
     }
 };
 tracksControllers.updateTrackInfo = async function(req,res){
-    
+    try{
+        let track = await Tracks.findById(req.params.id);
+        if(track)
+        {
+            let updatedTrack = await Tracks.findByIdAndUpdate(req.params.id, req.body, {new : true});
+            res.status(200).json({status:"Success", result: updatedTrack});
+        }
+        else
+        {
+            res.status(404).json({status:"Failed", message : "Track Not Found"});
+        }
+    }
+    catch(err)
+    {
+        res.status(400).json({status:"Failed", message : err.message});
+    }
 };
 tracksControllers.deleteTrack = async function(req,res){
     

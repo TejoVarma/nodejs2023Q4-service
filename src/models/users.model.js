@@ -16,7 +16,7 @@ const userSchema = Schema({
         type: String,
         required: true
     },
-    version: {
+    __v: {
         type: Number
     }
 },

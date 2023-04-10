@@ -5,7 +5,7 @@ const tracksControllers = {};
 tracksControllers.postNewTrack = async function(req,res){
     try{
         let track = await new Tracks(req.body);
-        let newTrack = track.save();
+        let newTrack = await track.save();
         res.status(201).json({status:"Success", message: "Successfully added track", result: track});
     }
     catch(err)

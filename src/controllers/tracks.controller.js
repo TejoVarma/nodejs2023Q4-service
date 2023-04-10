@@ -59,7 +59,22 @@ tracksControllers.updateTrackInfo = async function(req,res){
     }
 };
 tracksControllers.deleteTrack = async function(req,res){
-    
+    try{
+        let track = await Tracks.findById(req.params.id);
+        if(track)
+        {
+            let track = await Tracks.findByIdAndDelete(req.params.id, req.body, {new : true});
+            res.status(204).json({status:"Success", message: "Successfully deleted the track"});
+        }
+        else
+        {
+            res.status(404).json({status:"Failed", message : "Track Not Found"});
+        }
+    }
+    catch(err)
+    {
+        res.status(400).json({status:"Failed", message : err.message});
+    }
 };
 
 module.exports = tracksControllers;

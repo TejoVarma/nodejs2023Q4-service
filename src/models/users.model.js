@@ -7,7 +7,7 @@ const userSchema = Schema({
         type: String,
         default: uuid.v4()
     },
-    login: {
+    logIn: {
         type: String,
         required: true,
         unique: true
@@ -25,6 +25,6 @@ const userSchema = Schema({
     }
 );
 
-const userModel = new mongoose.model('UserData', userSchema);
+const userModel = new mongoose.model('Users', userSchema);
 
 module.exports = userModel;

@@ -1,11 +1,11 @@
 const express = require('express');
-const Favourites = require('../models/favourites.model');
-const favouritesControllers = {};
-const Id = "favCollection"
+const favorites = require('../models/favorites.model');
+const favoritesControllers = {};
+favoritesControllers.Id = "favCollection"
 
-favouritesControllers.favTrack = async function(req, res){
+favoritesControllers.favTrack = async function(req, res){
     try {
-        await Favourites.findByIdAndUpdate(Id, {$push : {tracks : req.params.id}});
+        await favorites.findByIdAndUpdate(favoritesControllers.Id, {$push : {tracks : req.params.id}});
         res.status(201).json({ status: "Success", message: "New track added to favs." });
     } 
     catch (err) 
@@ -14,16 +14,16 @@ favouritesControllers.favTrack = async function(req, res){
     }
 };
 
-favouritesControllers.deleteFavTrack = async function(req, res){
+favoritesControllers.deleteFavTrack = async function(req, res){
     try {
-        let fav = await Favourites.findById(Id);
+        let fav = await favorites.findById(favoritesControllers.Id);
         if (!fav || fav.tracks.indexOf(req.params.id) === -1) 
         {
             res.status(404).json({ status: "Failure", message: "track doesn't exists in favvorites" });
         }
         else
         {
-            await Favourites.findByIdAndUpdate(Id, {$pull : {tracks : req.params.id}});
+            await favorites.findByIdAndUpdate(favoritesControllers.Id, {$pull : {tracks : req.params.id}});
             res.status(204).json({ status: "Success", message: "one track removed from favs." }); 
         }
     } 
@@ -33,9 +33,9 @@ favouritesControllers.deleteFavTrack = async function(req, res){
     }
 };
 
-favouritesControllers.favAlbum = async function(req, res){
+favoritesControllers.favAlbum = async function(req, res){
     try {
-        await Favourites.findByIdAndUpdate(Id, {$push : {albums : req.params.id}});
+        await favorites.findByIdAndUpdate(favoritesControllers.Id, {$push : {albums : req.params.id}});
         res.status(201).json({ status: "Success", message: "New album added to favs." });
     } 
     catch (err) 
@@ -44,16 +44,16 @@ favouritesControllers.favAlbum = async function(req, res){
     }
 };
 
-favouritesControllers.deleteFavAlbum = async function(req, res){
+favoritesControllers.deleteFavAlbum = async function(req, res){
     try {
-        let fav = await Favourites.findById(Id);
+        let fav = await favorites.findById(favoritesControllers.Id);
         if (!fav || fav.albums.indexOf(req.params.id) === -1)
         {
             return res.status(404).json({ status: "Failure", message: "Album doesn't exists in favvorites" });
         }
         else
         {
-            await Favourites.findByIdAndUpdate(Id, {$pull : {albums : req.params.id}});
+            await favorites.findByIdAndUpdate(favoritesControllers.Id, {$pull : {albums : req.params.id}});
             res.status(204).json({ status: "Success", message: "one album removed from favs." });
         }
     } 
@@ -63,9 +63,9 @@ favouritesControllers.deleteFavAlbum = async function(req, res){
     }
 };
 
-favouritesControllers.favArtist = async function(req, res){
+favoritesControllers.favArtist = async function(req, res){
     try {
-        await Favourites.findByIdAndUpdate(Id, {$push : {artists : req.params.id}});
+        await favorites.findByIdAndUpdate(favoritesControllers.Id, {$push : {artists : req.params.id}});
         res.status(201).json({ status: "Success", message: "New artist added to favs." });
     } 
     catch (err) 
@@ -75,11 +75,11 @@ favouritesControllers.favArtist = async function(req, res){
 };
 
 
-favouritesControllers.deleteFavArtist = async (req, res) => {
+favoritesControllers.deleteFavArtist = async (req, res) => {
     try {
-        let fav = await Favourites.findById(Id);
+        let fav = await favorites.findById(favoritesControllers.Id);
         if (!fav || fav.artists.indexOf(req.params.id) === -1) return res.status(404).json({ status: "Failure", message: "Artist doesn't exists in favvorites" });
-        await Favourites.findByIdAndUpdate(Id, {$pull : {artists : req.params.id}});
+        await favorites.findByIdAndUpdate(favoritesControllers.Id, {$pull : {artists : req.params.id}});
         res.status(204).json({ status: "Success", message: "one artist removed from favs." });
     } 
     catch (err) 
@@ -88,9 +88,9 @@ favouritesControllers.deleteFavArtist = async (req, res) => {
     }
 };
 
-favouritesControllers.getAllFav = async function(req,res){
+favoritesControllers.getAllFav = async function(req,res){
     try{
-        let fav = await Favourites.findById(Id);
+        let fav = await favorites.findById(favoritesControllers.Id);
         res.status(200).json({ status: "Success", result : fav});
     }
     catch(err)
@@ -99,12 +99,12 @@ favouritesControllers.getAllFav = async function(req,res){
     }
 };
 
-favouritesControllers.isFav = async function(req,res,next){
+favoritesControllers.isFav = async function(req,res,next){
     try {
-        let fav = await Favourites.findById(Id);
+        let fav = await favorites.findById(favoritesControllers.Id);
         if(!fav) {
-            fav = await new Favourites({
-                _id: Id,
+            fav = await new favorites({
+                _id: favoritesControllers.Id,
                 artists : [],
                 albums : [],
                 tracks : []
@@ -125,4 +125,4 @@ favouritesControllers.isFav = async function(req,res,next){
     }
 }
 
-module.exports = favouritesControllers;
+module.exports = favoritesControllers;

@@ -1,6 +1,6 @@
 const express = require("express");
 const routers = express.Router();
-const favController = require('../controllers/favourites.controller');
+const favController = require('../controllers/favorites.controller');
 
 routers.get("/", favController.getAllFav);
 routers.post("/track/:id", favController.isFav,favController.favTrack);

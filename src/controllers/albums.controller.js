@@ -1,10 +1,19 @@
 const express = require('express');
+const mongoose = require('mongoose')
 const Albums = require('../models/albums.model');
+const uuid = require('uuid');
+const Tracks = require('../models/tracks.model');
+const Favorites = require('../models/favorites.model');
+const favController = require('../controllers/favorites.controller');
+const Id = favController.Id;
 const albumsControllers = {};
 
 albumsControllers.newAlbum = async function(req,res){
     try{
-        let album = await new Albums(req.body);
+        let album = await new Albums({
+            ...req.body,
+            _id : uuid.v4()
+        });
         let newAlbum = await album.save();
         res.status(201).json({status : "Success", message : "Successfully Created", result : album});
     }
@@ -63,6 +72,8 @@ albumsControllers.deleteAlbum = async function(req,res){
         let album = await Albums.findById(req.params.id);
         if(album)
         {
+            await Tracks.updateMany({albumId : req.params.id}, {albumId : null});
+            await Favorites.findByIdAndUpdate(Id, {$pull : {albums : req.params.id}});
             await Albums.findByIdAndDelete(req.params.id);
             res.status(204).json({status: "Success", message : "Album successfully deleted"});
         }

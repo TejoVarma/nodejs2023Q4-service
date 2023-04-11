@@ -1,10 +1,17 @@
 const express = require('express');
 const Tracks = require('../models/tracks.model');
 const tracksControllers = {};
+const uuid = require('uuid');
+const Favorites = require('../models/favorites.model');
+const favController = require('../controllers/favorites.controller');
+const Id = favController.Id;
 
 tracksControllers.postNewTrack = async function(req,res){
     try{
-        let track = await new Tracks(req.body);
+        let track = await new Tracks({
+            ...req.body,
+            _id : uuid.v4()
+        });
         let newTrack = await track.save();
         res.status(201).json({status:"Success", message: "Successfully added track", result: track});
     }
@@ -63,6 +70,7 @@ tracksControllers.deleteTrack = async function(req,res){
         let track = await Tracks.findById(req.params.id);
         if(track)
         {
+            await Favorites.findByIdAndUpdate(Id, {$pull : {tracks : req.params.id}});
             let track = await Tracks.findByIdAndDelete(req.params.id, req.body, {new : true});
             res.status(204).json({status:"Success", message: "Successfully deleted the track"});
         }

@@ -4,8 +4,7 @@ const uuid = require('uuid');
 
 const artistSchema = Schema({
     _id: {
-        type: String,
-        default: uuid.v4()
+        type: String
     },
     name: {
         type: String,

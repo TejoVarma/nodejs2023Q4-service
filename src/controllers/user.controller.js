@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = require('../models/users.model');
 const bcrypt = require('bcrypt');
+const uuid = require('uuid');
 
 const userControllers = {};
 
@@ -10,6 +11,7 @@ userControllers.postNewUser = async function(req,res){
         let hashPassword = await bcrypt.hash(req.body.password, 10);
         let user = await new User({
             ...req.body,
+            _id : uuid.v4(),
             __v : 1.0,
             password: hashPassword
         });

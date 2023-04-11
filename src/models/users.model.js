@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = Schema({
     _id: {
-        type: String,
-        default: uuid.v4()
+        type: String
     },
     logIn: {
         type: String,

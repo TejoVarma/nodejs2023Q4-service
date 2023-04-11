@@ -3,18 +3,18 @@ const Schema = mongoose.Schema;
 const uuid = require('uuid');
 
 const artistSchema = Schema({
-    _id:{
-        type : String,
-        default : uuid.v4()
+    _id: {
+        type: String,
+        default: uuid.v4()
     },
     name: {
-        type : String,
-        required : true,
-        unique : true
+        type: String,
+        required: true,
+        unique: true
     },
     grammy: {
-        type : Boolean,
-        required : true
+        type: Boolean,
+        required: true
     }
 },
     {

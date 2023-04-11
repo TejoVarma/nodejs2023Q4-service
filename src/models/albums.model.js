@@ -20,7 +20,11 @@ const albumSchema = Schema({
         type : String,
         default : null
     }
-});
+},
+{
+    timestamps: true
+}
+);
 
 const albumModel = new mongoose.model('albums', albumSchema);
 

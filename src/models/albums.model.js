@@ -1,0 +1,27 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const uuid = require('uuid');
+
+const albumSchema = Schema({
+    _id : {
+        type : String,
+        default : uuid.v4()
+    },
+    name : {
+        type : String,
+        unique : true,
+        required : true
+    },
+    year : {
+        type : Number,
+        required : true
+    },
+    artistId : {
+        type : String,
+        default : null
+    }
+});
+
+const albumModel = new mongoose.model('albums', albumSchema);
+
+module.exports = albumModel;
